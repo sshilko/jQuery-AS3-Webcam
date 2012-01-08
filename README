@@ -1,0 +1,30 @@
+/**
+* jQuery AS3 Webcam
+*
+* Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
+* 
+* Date: 08/01/2012
+*
+* @author Sergey Shilko
+* @version 1.0
+*
+**/
+
+jQuery AS3 Webcam, you will be able to make JPEG captures of web camera, all interactions are made thru javascript.
+Javascript callback will receive base64 encoded JPEG image from webcamera.
+
+/* SWF external interface:
+ * webcam.save() - get base64 encoded JPEG image 
+ * webcam.getCameraList() - get list of available cams
+ * webcam.setCamera(i) - set camera, camera index retrieved with getCameraList
+ * */
+
+/* External triggers on events:
+ * webcam.isClientReady() - you respond to SWF with true (by default) meaning javascript is ready to accept callbacks
+ * webcam.cameraConnected() - camera connected callback from SWF
+ * webcam.noCameraFound() - SWF response that it cannot find any suitable camera
+ * webcam.cameraEnabled() - SWF response when camera tracking is enabled (this is called multiple times, use isCameraEnabled flag)
+ * webcam.cameraDisabled()- SWF response, user denied usage of camera
+ * webcam.swfApiFail()    - Javascript failed to make call to SWF
+ * webcam.debug()         - debug callback used from SWF and can be used from javascript side too
+ * */
