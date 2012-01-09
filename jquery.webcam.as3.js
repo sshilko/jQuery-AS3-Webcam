@@ -7,6 +7,7 @@
 *
 * @author Sergey Shilko
 * @version 1.0
+* @see https://github.com/sshilko/jQuery-AS3-Webcam
 **/
 
 $(document).ready( function() {
