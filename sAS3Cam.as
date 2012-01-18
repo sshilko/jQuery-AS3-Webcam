@@ -47,24 +47,40 @@ package {
 
     public class sAS3Cam extends Sprite {
 
-	private var camera:Camera = Camera.getCamera();
-        private var video:Video = new Video();
+	private var camera:Camera  = null;
+        private var video:Video    = null;
         private var bmd:BitmapData = null;
+
+        private var camBandwidth:int = 0; // Specifies the maximum amount of bandwidth that the current outgoing video feed can use, in bytes per second. To specify that Flash Player video can use as much bandwidth as needed to maintain the value of quality , pass 0 for bandwidth . The default value is 16384.
+        private var camQuality:int = 100; // this value is 0-100 with 1 being the lowest quality. Pass 0 if you want the quality to vary to keep better framerates
+        private var camFrameRate:int = 24;
+
+        private function setupCamera(useCamera:Camera):void {
+            useCamera.setMode(stage.stageWidth, stage.stageHeight, camFrameRate);
+            useCamera.setQuality(camBandwidth, camQuality);
+            useCamera.addEventListener(StatusEvent.STATUS, statusHandler);
+        }
+        
+        private function setVideoCamera(useCamera:Camera):void {
+            video = new Video();
+            video.smoothing = false;
+            video.attachCamera(useCamera);
+            addChild(video);
+        }
         
 	public function sAS3Cam():void {
             flash.system.Security.allowDomain("*");
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.align = StageAlign.TOP_LEFT;
+
+            camera = Camera.getCamera();
             
             if (null != camera) {
                 if (ExternalInterface.available) {
-                    var framerate:int = 24;
                     bmd = new BitmapData(stage.stageWidth, stage.stageHeight);
-                    camera.setMode(stage.stageWidth, stage.stageHeight, framerate);
-                    camera.addEventListener(StatusEvent.STATUS, statusHandler);
-                    video.smoothing = true;
-                    video.attachCamera(camera);
-                    addChild(video);
+
+                    setupCamera(camera);
+                    setVideoCamera(camera);
                     
                     try { 
                         var containerReady:Boolean = isContainerReady(); 
@@ -125,7 +141,8 @@ package {
         }
 
 	public function getCameraList():Array {
-            var list:Array = Camera.names;            
+            var list:Array = Camera.names;
+            list.reverse();
             return list;
 	}
 
@@ -133,7 +150,8 @@ package {
             var newcam:Camera = Camera.getCamera(id.toString());
             if (newcam) {
                 camera = newcam;
-                video.attachCamera(camera);
+                setupCamera(camera);
+                setVideoCamera(camera);
                 return true;
             }
             return false;
@@ -141,7 +159,8 @@ package {
 
         public function save():String {
             bmd.draw(video);
-            var quality:Number = 99;
+            video.attachCamera(null); //this stops video stream, video will pause on last frame (like a preview)
+            var quality:Number = 100;
             var byteArray:ByteArray = new JPGEncoder(quality).encode(bmd);
             var string:String = Base64.encodeByteArray(byteArray);
             return string;
