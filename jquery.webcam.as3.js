@@ -9,7 +9,7 @@
 * @version 1.0
 * @see https://github.com/sshilko/jQuery-AS3-Webcam
 **/
-
+try {
 $(document).ready( function() {
     var webcam = {
 	width: 320,
@@ -53,3 +53,4 @@ $(document).ready( function() {
     window.webcam = webcam;
     $.fn.webcam = function(options) { return webcam.init(this, options); };
 });
+} catch (e) {}
