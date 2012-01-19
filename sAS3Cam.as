@@ -59,6 +59,7 @@ package {
             useCamera.setMode(stage.stageWidth, stage.stageHeight, camFrameRate);
             useCamera.setQuality(camBandwidth, camQuality);
             useCamera.addEventListener(StatusEvent.STATUS, statusHandler);
+            useCamera.setMotionLevel(100); //disable motion detection
         }
         
         private function setVideoCamera(useCamera:Camera):void {
