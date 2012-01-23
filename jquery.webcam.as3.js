@@ -48,7 +48,7 @@ $(document).ready( function() {
             return this;
         },
         swfApiFail: function (e) { },
-	debug:	    function ()  { },
+	debug:	    function ()  { }
     };
     window.webcam = webcam;
     $.fn.webcam = function(options) { return webcam.init(this, options); };
