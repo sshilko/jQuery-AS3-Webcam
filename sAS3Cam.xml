@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<movie width="320" height="240" framerate="24">
-	<DefineVideoStream width="320" height="240" objectID="1" frames="0" scale="noscale" deblocking="0" smoothing="1" codec="0" />
+<movie>
+	<DefineVideoStream objectID="1" frames="0" codec="0" />
 	<frame>
 		<library>
 			<clip id="clip" objectID="1" />

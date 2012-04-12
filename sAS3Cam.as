@@ -29,6 +29,8 @@
 package {
     
     import flash.system.Security;
+    import flash.system.SecurityPanel;
+
     import flash.external.ExternalInterface;
 
     import flash.display.Sprite;
@@ -40,7 +42,8 @@ package {
     import flash.utils.Timer;
 
     import flash.display.StageAlign;
-    import flash.display.StageScaleMode;    
+    import flash.display.StageScaleMode;
+    import flash.display.StageQuality;
 
     import com.adobe.images.JPGEncoder;
     import Base64;
@@ -55,16 +58,39 @@ package {
         private var camQuality:int = 100; // this value is 0-100 with 1 being the lowest quality. Pass 0 if you want the quality to vary to keep better framerates
         private var camFrameRate:int = 24;
 
+        private var camResolution:Array;
+
+        private function getCameraResolution():Array {
+            var resolutionWidth:Number = this.loaderInfo.parameters["resolutionWidth"];
+            var videoWidth:Number      = Math.floor(resolutionWidth);
+
+            var resolutionHeight:Number = this.loaderInfo.parameters["resolutionHeight"];
+            var videoHeight:Number      = Math.floor(resolutionHeight);
+
+            var serverWidth:Number  = Math.floor(stage.stageWidth);
+            var serverHeight:Number = Math.floor(stage.stageHeight);
+
+            var result:Array = [Math.max(videoWidth, serverWidth), Math.max(videoHeight, serverHeight)];
+            return result;
+        }
+
         private function setupCamera(useCamera:Camera):void {
-            useCamera.setMode(stage.stageWidth, stage.stageHeight, camFrameRate);
+            useCamera.setMode(camResolution[0], 
+                              camResolution[1],
+                              camFrameRate);
+
             useCamera.setQuality(camBandwidth, camQuality);
             useCamera.addEventListener(StatusEvent.STATUS, statusHandler);
             useCamera.setMotionLevel(100); //disable motion detection
         }
         
         private function setVideoCamera(useCamera:Camera):void {
+            var doSmoothing:Boolean = this.loaderInfo.parameters["smoothing"];
+            var doDeblocking:Number = this.loaderInfo.parameters["deblocking"];
+
             video = new Video();
-            video.smoothing = false;
+            video.smoothing  = doSmoothing;
+            video.deblocking = doDeblocking;
             video.attachCamera(useCamera);
             addChild(video);
         }
@@ -72,16 +98,18 @@ package {
 	public function sAS3Cam():void {
             flash.system.Security.allowDomain("*");
             stage.scaleMode = StageScaleMode.NO_SCALE;
+            stage.quality = StageQuality.BEST;
             stage.align = StageAlign.TOP_LEFT;
 
             camera = Camera.getCamera();
             
             if (null != camera) {
                 if (ExternalInterface.available) {
-                    bmd = new BitmapData(stage.stageWidth, stage.stageHeight);
-
+                    camResolution = getCameraResolution();
                     setupCamera(camera);
                     setVideoCamera(camera);
+
+                    bmd = new BitmapData(stage.width, stage.height);
                     
                     try { 
                         var containerReady:Boolean = isContainerReady(); 
@@ -129,6 +157,8 @@ package {
             /* when we have pernament accept policy --> */
             if (!camera.muted) {
                 extCall('cameraEnabled');
+            } else {
+                Security.showSettings(SecurityPanel.PRIVACY);
             }
             /* when we have pernament accept policy <-- */
         }

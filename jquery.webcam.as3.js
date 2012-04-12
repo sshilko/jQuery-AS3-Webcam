@@ -12,14 +12,21 @@
 try {
 $(document).ready( function() {
     var webcam = {
-	width: 320,
-	height: 240,
+	    previewWidth: 320,
+	    previewHeight: 240,
+
+        resolutionWidth: 640,
+        resolutionHeight: 480,
+
+        videoDeblocking: 0,
+        videoSmoothing: 0,
+
         cameraId: 'AS3webcamObject',
         callTarget: 'webcam',
         bgcolor: '#000000',
         isSwfReady: false,
         isCameraEnabled: false,
-	swffile: "sAS3Cam.swf",
+	    swffile: "sAS3Cam.swf",
         cameraEnabled:   function () { },
         cameraDisabled:  function () { },
         noCameraFound:   function () { },
@@ -43,7 +50,7 @@ $(document).ready( function() {
                     }
                 }
             }
-            var source = '<object id="'+this.cameraId+'" type="application/x-shockwave-flash" data="'+webcam.swffile+'" width="'+webcam.width+'" height="'+webcam.height+'"><param name="movie" value="'+webcam.swffile+'" /><param name="FlashVars" value="callTarget='+this.callTarget+'" /><param name="allowScriptAccess" value="always" /><param name="bgcolor" value="'+webcam.bgcolor+'" /></object>';
+            var source = '<object id="'+this.cameraId+'" type="application/x-shockwave-flash" data="'+webcam.swffile+'" width="'+webcam.previewWidth+'" height="'+webcam.previewHeight+'"><param name="movie" value="'+webcam.swffile+'" /><param name="FlashVars" value="callTarget='+this.callTarget+'&resolutionWidth='+webcam.resolutionWidth+'&resolutionHeight='+webcam.resolutionWidth+'&smoothing='+webcam.videoSmoothing+'&deblocking='+webcam.videoDeblocking+'" /><param name="allowScriptAccess" value="always" /><param name="bgcolor" value="'+webcam.bgcolor+'" /></object>';
             $(container).html(source);
             return this;
         },
