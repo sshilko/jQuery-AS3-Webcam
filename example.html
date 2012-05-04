@@ -1,0 +1,171 @@
+<!--
+/**
+* jQuery AS3 Webcam
+*
+* Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
+* 
+* @author Sergey Shilko
+* @version 1.1
+* @see https://github.com/sshilko/jQuery-AS3-Webcam
+*
+**/
+-->
+<html>
+<head>
+	<title> Example of usage: jQuery AS3 Webcam </title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.webcam.as3.js"></script>
+    <style type="text/css">
+        .webcam-container {padding:0;margin:0}
+        .size320x240 { width:320px; height:240px;}
+        .webcam-container object {border:1px solid #000;}
+        .webcam-error {color:red;padding-top:10px;}
+    </style>
+</head>
+<body>
+    <table border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+      <tr>
+        <td class="webcam-container size320x240">
+          <div id="webcam" class="size320x240"></div>
+          <div id="webcam-preview" style="display:none;margin-top:-240px;" class="size320x240">
+              <img src="" alt="Preview" border="0" class="size320x240" />
+          </div>
+        </td>
+     </tr>
+     <tr>
+        <td class="webcam-text">
+          <div><select style="display:none" id="popup-webcam-cams"></select></div>
+          <div>
+              <input 
+                id="popup-webcam-take-photo"
+                type="button" 
+                disabled="disabled"
+                value="Take a photo"
+                style="display:none" />
+
+              <input id="popup-webcam-save" 
+                     style="display:none"
+                     type="button" 
+                     value="Take another photo" />
+          </div>
+          <p class="webcam-error"></p>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#webcam").webcam({
+        swffile: "sAS3Cam.swf",
+        
+        noCameraFound: function () {
+                this.debug('error', 'Web camera is not available');
+            },
+        
+        swfApiFail: function(e) {
+                this.debug('error', 'Internal camera plugin error');
+        },
+
+        cameraDisabled: function () {
+                this.debug('error', 'Please allow access to your camera');
+        },
+        
+        debug: function(type, string) {
+            if (type == 'error') {
+                $(".webcam-error").html(string);
+            } else {
+                $(".webcam-error").html('');
+            } 
+        },
+
+        cameraEnabled:  function () {
+                this.debug('notice', 'Camera enabled');
+                var cameraApi = this;
+                if (cameraApi.isCameraEnabled) {
+                    return;
+                } else {
+                    cameraApi.isCameraEnabled = true;
+                }
+        var cams = cameraApi.getCameraList();
+                
+                for(var i in cams) {
+                    $("#popup-webcam-cams").append("<option value='"+i+"'>" + cams[i] + "</option>");
+                }
+                
+                setTimeout(function() {
+                        $("#popup-webcam-take-photo").removeAttr('disabled');
+                        $("#popup-webcam-take-photo").show();
+                        if (cams.length > 1) {
+                            $("#popup-webcam-cams").show();
+                        }
+                    }, 500);
+                
+                $("#popup-webcam-cams").change(function() {
+                        var success = cameraApi.setCamera($(this).val());
+                        if (!success) {
+                            cameraApi.debug('error', 'Unable to select camera');
+                        } else {
+                            cameraApi.debug('notice', 'Camera changed');
+                        }
+                });
+                
+                $('#popup-webcam-take-photo').click(function() {
+                        //$('body').css('cursor', 'wait');         
+                        //$(this).hide();
+                        var result = cameraApi.save();
+                        if (result && result.length) {
+                            alert('got base64encoded jpeg with length: ' + result.length);
+
+                            /* resume camera capture */
+                            cameraApi.setCamera($("#popup-webcam-cams").val());
+
+
+                            // $.ajax({'url': "YOUR_URL_HERE",
+                            //         'processData': false,
+                            //         'async': true,
+                            //         'cache': false,    
+                            //         'type': 'POST',
+                            //         'dataType': 'json',    
+                            //         'contentType': 'text/plain',
+                            //         'data':  result,
+                            //         'error': function(xhr, textStatus, error) {
+                            //             cameraApi.debug('error', 'Server connection error ("' + textStatus + '"): ' + error);
+                            //             alert('some error callback here');
+                            //         },                                    
+                            //         'success': function(response) {
+                            //             alert('some success callback here');
+                            //             //$('#webcam').css('visibility', 'hidden');
+                            //             cameraApi.setCamera($("#popup-webcam-cams").val());
+                            //             $('body').css('cursor', 'auto');
+                            //         }
+                            //     });
+                        } else {
+                            cameraApi.debug('error', 'Broken camera');
+                        }
+                });
+
+
+                var reload = function() {
+                        $('#popup-webcam-save').hide();
+                        $('#popup-webcam-take-photo').show();
+                        
+                        //$('#webcam-preview').hide();
+                        //$('#webcam').css('visibility', 'visible');
+                        //$('#webcam-preview').find('img').each(function() {
+                        //    $(this).attr('src', '');
+                        //});
+                };
+
+                $('#popup-webcam-save').click(function() {
+                        reload();
+                });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
