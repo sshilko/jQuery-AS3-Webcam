@@ -43,11 +43,6 @@
                 disabled="disabled"
                 value="Take a photo"
                 style="display:none" />
-
-              <input id="popup-webcam-save" 
-                     style="display:none"
-                     type="button" 
-                     value="Take another photo" />
           </div>
           <p class="webcam-error"></p>
         </td>
@@ -149,7 +144,6 @@ $(document).ready(function() {
 
 
                 var reload = function() {
-                        $('#popup-webcam-save').hide();
                         $('#popup-webcam-take-photo').show();
                         
                         //$('#webcam-preview').hide();
