@@ -88,7 +88,7 @@ package {
             var doSmoothing:Boolean = this.loaderInfo.parameters["smoothing"];
             var doDeblocking:Number = this.loaderInfo.parameters["deblocking"];
 
-            video = new Video();
+            video = new Video(camResolution[0],camResolution[1]);
             video.smoothing  = doSmoothing;
             video.deblocking = doDeblocking;
             video.attachCamera(useCamera);
