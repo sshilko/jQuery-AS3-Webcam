@@ -15,8 +15,8 @@ $(document).ready( function() {
 	    previewWidth: 320,
 	    previewHeight: 240,
 
-        resolutionWidth: 640,
-        resolutionHeight: 480,
+        resolutionWidth: 320,
+        resolutionHeight: 240,
 
         videoDeblocking: 0,
         videoSmoothing: 0,
@@ -39,6 +39,7 @@ $(document).ready( function() {
             this.save          = function()  { try { return cam.save();          } catch(e) { this.swfApiFail(e); } }
             this.setCamera     = function(i) { try { return cam.setCamera(i);    } catch(e) { this.swfApiFail(e); } }
             this.getCameraList = function()  { try { return cam.getCameraList(); } catch(e) { this.swfApiFail(e); } }
+            this.getResolution = function()  { try { return cam.getResolution(); } catch(e) { this.swfApiFail(e); } },
 
             this.cameraReady();
         },

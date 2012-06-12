@@ -55,6 +55,12 @@
 $(document).ready(function() {
     $("#webcam").webcam({
         swffile: "sAS3Cam.swf",
+
+        previewWidth: 320,
+        previewHeight: 240,
+        
+        resolutionWidth: 320,
+        resolutionHeight: 240,
         
         noCameraFound: function () {
                 this.debug('error', 'Web camera is not available');
@@ -94,6 +100,7 @@ $(document).ready(function() {
                         $("#popup-webcam-take-photo").removeAttr('disabled');
                         $("#popup-webcam-take-photo").show();
                         if (cams.length > 1) {
+                            cameraApi.setCamera(0);
                             $("#popup-webcam-cams").show();
                         }
                     }, 500);

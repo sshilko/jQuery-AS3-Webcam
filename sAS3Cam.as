@@ -14,6 +14,7 @@
  * webcam.save() - get base64 encoded JPEG image 
  * webcam.getCameraList() - get list of available cams
  * webcam.setCamera(i) - set camera, camera index retrieved with getCameraList
+ * webcam.getResolution() - get camera resolution actually applied
  * */
 
 /* External triggers on events:
@@ -56,7 +57,7 @@ package {
 
         private var camBandwidth:int = 0; // Specifies the maximum amount of bandwidth that the current outgoing video feed can use, in bytes per second. To specify that Flash Player video can use as much bandwidth as needed to maintain the value of quality , pass 0 for bandwidth . The default value is 16384.
         private var camQuality:int = 100; // this value is 0-100 with 1 being the lowest quality. Pass 0 if you want the quality to vary to keep better framerates
-        private var camFrameRate:int = 24;
+        private var camFrameRate:int = 14;
 
         private var camResolution:Array;
 
@@ -79,6 +80,10 @@ package {
                               camResolution[1],
                               camFrameRate);
 
+            camResolution[0] = useCamera.width;
+            camResolution[1] = useCamera.height;
+            camFrameRate     = useCamera.fps;
+
             useCamera.setQuality(camBandwidth, camQuality);
             useCamera.addEventListener(StatusEvent.STATUS, statusHandler);
             useCamera.setMotionLevel(100); //disable motion detection
@@ -99,9 +104,9 @@ package {
             flash.system.Security.allowDomain("*");
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.quality = StageQuality.BEST;
-            stage.align = StageAlign.TOP_LEFT;
+            stage.align = StageAlign.TOP;
 
-            camera = Camera.getCamera();
+            camera = Camera.getCamera('0');
             
             if (null != camera) {
                 if (ExternalInterface.available) {
@@ -109,7 +114,10 @@ package {
                     setupCamera(camera);
                     setVideoCamera(camera);
 
-                    bmd = new BitmapData(stage.width, stage.height);
+                    /**
+                     * Dont use stage.width & stage.height because result image will be stretched
+                     */
+                    bmd = new BitmapData(camResolution[0], camResolution[1]);
                     
                     try { 
                         var containerReady:Boolean = isContainerReady(); 
@@ -152,6 +160,7 @@ package {
         private function setupCallbacks():void {
             ExternalInterface.addCallback("save", save);
             ExternalInterface.addCallback("setCamera", setCamera);
+            ExternalInterface.addCallback("getResolution", getResolution);
             ExternalInterface.addCallback("getCameraList", getCameraList);
             extCall('cameraConnected');
             /* when we have pernament accept policy --> */
@@ -171,18 +180,26 @@ package {
             }
         }
 
+        
+    /**
+     * Returns actual resolution used by camera
+     */
+    public function getResolution():Array {
+        var res:Array = [camResolution[0], camResolution[1]];
+        return res;
+    }
+
 	public function getCameraList():Array {
             var list:Array = Camera.names;
-            list.reverse();
             return list;
 	}
 
-	public function setCamera(id:Number):Boolean {
+	public function setCamera(id:String):Boolean {
             var newcam:Camera = Camera.getCamera(id.toString());
             if (newcam) {
+                setupCamera(newcam);
+                setVideoCamera(newcam);
                 camera = newcam;
-                setupCamera(camera);
-                setVideoCamera(camera);
                 return true;
             }
             return false;
