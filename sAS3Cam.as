@@ -106,10 +106,12 @@ package {
             stage.quality = StageQuality.BEST;
             stage.align = StageAlign.TOP;
 
-            camera = Camera.getCamera('0');
+            camera = Camera.getCamera();
             
             if (null != camera) {
                 if (ExternalInterface.available) {
+
+                    camera = Camera.getCamera('0');
                     camResolution = getCameraResolution();
                     setupCamera(camera);
                     setVideoCamera(camera);
@@ -124,7 +126,7 @@ package {
                         if (containerReady) {                     
                             setupCallbacks();
                         }  else { 
-                            var readyTimer:Timer = new Timer(100); 
+                            var readyTimer:Timer = new Timer(250); 
                             readyTimer.addEventListener(TimerEvent.TIMER, timerHandler); 
                             readyTimer.start(); 
                         }

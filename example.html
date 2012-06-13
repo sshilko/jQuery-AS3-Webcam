@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="jquery.webcam.as3.js"></script>
     <style type="text/css">
         .webcam-container {padding:0;margin:0}
-        .size320x240 { width:320px; height:240px;}
+        .size640x480 { width:640px; height:480px;}
         .webcam-container object {border:1px solid #000;}
         .webcam-error {color:red;padding-top:10px;}
     </style>
@@ -26,16 +26,13 @@
     <table border="0" cellspacing="0" cellpadding="0">
     <tbody>
       <tr>
-        <td class="webcam-container size320x240">
-          <div id="webcam" class="size320x240"></div>
-          <div id="webcam-preview" style="display:none;margin-top:-240px;" class="size320x240">
-              <img src="" alt="Preview" border="0" class="size320x240" />
-          </div>
+        <td class="webcam-container size640x480">
+          <div id="webcam" class="size640x480"></div>
         </td>
      </tr>
      <tr>
         <td class="webcam-text">
-          <div><select style="display:none" id="popup-webcam-cams"></select></div>
+          <div><select id="popup-webcam-cams"></select></div>
           <div>
               <input 
                 id="popup-webcam-take-photo"
@@ -54,13 +51,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("#webcam").webcam({
-        swffile: "sAS3Cam.swf",
+        swffile: "sAS3Cam.swf?v=20120613",
 
-        previewWidth: 320,
-        previewHeight: 240,
+        previewWidth: 640,
+        previewHeight: 480,
         
-        resolutionWidth: 320,
-        resolutionHeight: 240,
+        resolutionWidth: 640,
+        resolutionHeight: 480,
         
         noCameraFound: function () {
                 this.debug('error', 'Web camera is not available');
@@ -99,11 +96,8 @@ $(document).ready(function() {
                 setTimeout(function() {
                         $("#popup-webcam-take-photo").removeAttr('disabled');
                         $("#popup-webcam-take-photo").show();
-                        if (cams.length > 1) {
-                            cameraApi.setCamera(0);
-                            $("#popup-webcam-cams").show();
-                        }
-                    }, 500);
+                        cameraApi.setCamera('0');
+                    }, 750);
                 
                 $("#popup-webcam-cams").change(function() {
                         var success = cameraApi.setCamera($(this).val());
@@ -115,35 +109,13 @@ $(document).ready(function() {
                 });
                 
                 $('#popup-webcam-take-photo').click(function() {
-                        //$('body').css('cursor', 'wait');         
-                        //$(this).hide();
                         var result = cameraApi.save();
                         if (result && result.length) {
-                            alert('got base64encoded jpeg with length: ' + result.length);
+                            var actualShotResolution = cameraApi.getResolution();
+                            alert('base64encoded jpeg (' + actualShotResolution[0] + 'x' + actualShotResolution[1] + '): ' + result.length + 'chars');
 
                             /* resume camera capture */
                             cameraApi.setCamera($("#popup-webcam-cams").val());
-
-
-                            // $.ajax({'url': "YOUR_URL_HERE",
-                            //         'processData': false,
-                            //         'async': true,
-                            //         'cache': false,    
-                            //         'type': 'POST',
-                            //         'dataType': 'json',    
-                            //         'contentType': 'text/plain',
-                            //         'data':  result,
-                            //         'error': function(xhr, textStatus, error) {
-                            //             cameraApi.debug('error', 'Server connection error ("' + textStatus + '"): ' + error);
-                            //             alert('some error callback here');
-                            //         },                                    
-                            //         'success': function(response) {
-                            //             alert('some success callback here');
-                            //             //$('#webcam').css('visibility', 'hidden');
-                            //             cameraApi.setCamera($("#popup-webcam-cams").val());
-                            //             $('body').css('cursor', 'auto');
-                            //         }
-                            //     });
                         } else {
                             cameraApi.debug('error', 'Broken camera');
                         }
@@ -151,13 +123,7 @@ $(document).ready(function() {
 
 
                 var reload = function() {
-                        $('#popup-webcam-take-photo').show();
-                        
-                        //$('#webcam-preview').hide();
-                        //$('#webcam').css('visibility', 'visible');
-                        //$('#webcam-preview').find('img').each(function() {
-                        //    $(this).attr('src', '');
-                        //});
+                    $('#popup-webcam-take-photo').show();                       
                 };
 
                 $('#popup-webcam-save').click(function() {
