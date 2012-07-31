@@ -102,9 +102,9 @@ package {
         
 	public function sAS3Cam():void {
             flash.system.Security.allowDomain("*");
-            stage.scaleMode = StageScaleMode.NO_SCALE;
+            stage.scaleMode = this.loaderInfo.parameters["StageScaleMode"];
             stage.quality = StageQuality.BEST;
-            stage.align = StageAlign.TOP;
+            stage.align = ""; // empty string is absolute center
 
             camera = Camera.getCamera();
             
