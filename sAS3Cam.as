@@ -190,19 +190,19 @@ package {
         }
 
         public function getCameraList():Array {
-                var list:Array = Camera.names;
-                return list;
+            var list:Array = Camera.names;
+            return list;
         }
 
         public function setCamera(id:String):Boolean {
-                var newcam:Camera = Camera.getCamera(id.toString());
-                if (newcam) {
-                    setupCamera(newcam);
-                    setVideoCamera(newcam);
-                    camera = newcam;
-                    return true;
-                }
-                return false;
+            var newcam:Camera = Camera.getCamera(id.toString());
+            if (newcam) {
+                setupCamera(newcam);
+                setVideoCamera(newcam);
+                camera = newcam;
+                return true;
+            }
+            return false;
         }
 
         public function save():String {
