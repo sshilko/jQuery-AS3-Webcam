@@ -2,7 +2,7 @@
 * jQuery AS3 Webcam
 *
 * Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
-* 
+*
 * Date: 08/01/2012
 *
 * @author Sergey Shilko
@@ -12,8 +12,8 @@
 try {
 $(document).ready( function() {
     var webcam = {
-	    previewWidth: 320,
-	    previewHeight: 240,
+        previewWidth: 320,
+        previewHeight: 240,
 
         resolutionWidth: 320,
         resolutionHeight: 240,
@@ -28,7 +28,7 @@ $(document).ready( function() {
         bgcolor: '#000000',
         isSwfReady: false,
         isCameraEnabled: false,
-	    swffile: "sAS3Cam.swf",
+        swffile: "sAS3Cam.swf",
         cameraEnabled:   function () { },
         cameraDisabled:  function () { },
         noCameraFound:   function () { },
@@ -36,8 +36,8 @@ $(document).ready( function() {
         cameraReady:     function () { },
         cameraConnected: function () {
             this.isSwfReady = true;
-	    var cam = document.getElementById(this.cameraId);
-            
+        var cam = document.getElementById(this.cameraId);
+
             this.save          = function()  { try { return cam.save();          } catch(e) { this.swfApiFail(e); } }
             this.setCamera     = function(i) { try { return cam.setCamera(i);    } catch(e) { this.swfApiFail(e); } }
             this.getCameraList = function()  { try { return cam.getCameraList(); } catch(e) { this.swfApiFail(e); } }
@@ -58,7 +58,7 @@ $(document).ready( function() {
             return this;
         },
         swfApiFail: function (e) { },
-	debug:	    function ()  { }
+    	debug:	    function ()  { }
     };
     window.webcam = webcam;
     $.fn.webcam = function(options) { return webcam.init(this, options); };

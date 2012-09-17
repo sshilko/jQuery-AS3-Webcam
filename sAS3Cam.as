@@ -2,7 +2,7 @@
 * jQuery AS3 Webcam
 *
 * Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
-* 
+*
 * Date: 08/01/2012
 *
 * @author Sergey Shilko
@@ -11,7 +11,7 @@
 **/
 
 /* SWF external interface:
- * webcam.save() - get base64 encoded JPEG image 
+ * webcam.save() - get base64 encoded JPEG image
  * webcam.getCameraList() - get list of available cams
  * webcam.setCamera(i) - set camera, camera index retrieved with getCameraList
  * webcam.getResolution() - get camera resolution actually applied
@@ -28,7 +28,6 @@
  * */
 
 package {
-    
     import flash.system.Security;
     import flash.system.SecurityPanel;
 
@@ -51,7 +50,7 @@ package {
 
     public class sAS3Cam extends Sprite {
 
-	private var camera:Camera  = null;
+        private var camera:Camera  = null;
         private var video:Video    = null;
         private var bmd:BitmapData = null;
 
@@ -76,7 +75,7 @@ package {
         }
 
         private function setupCamera(useCamera:Camera):void {
-            useCamera.setMode(camResolution[0], 
+            useCamera.setMode(camResolution[0],
                               camResolution[1],
                               camFrameRate);
 
@@ -88,7 +87,7 @@ package {
             useCamera.addEventListener(StatusEvent.STATUS, statusHandler);
             useCamera.setMotionLevel(100); //disable motion detection
         }
-        
+
         private function setVideoCamera(useCamera:Camera):void {
             var doSmoothing:Boolean = this.loaderInfo.parameters["smoothing"];
             var doDeblocking:Number = this.loaderInfo.parameters["deblocking"];
@@ -99,15 +98,15 @@ package {
             video.attachCamera(useCamera);
             addChild(video);
         }
-        
-	public function sAS3Cam():void {
+
+        public function sAS3Cam():void {
             flash.system.Security.allowDomain("*");
             stage.scaleMode = this.loaderInfo.parameters["StageScaleMode"];
             stage.quality = StageQuality.BEST;
             stage.align = ""; // empty string is absolute center
 
             camera = Camera.getCamera();
-            
+
             if (null != camera) {
                 if (ExternalInterface.available) {
 
@@ -120,25 +119,25 @@ package {
                      * Dont use stage.width & stage.height because result image will be stretched
                      */
                     bmd = new BitmapData(camResolution[0], camResolution[1]);
-                    
-                    try { 
-                        var containerReady:Boolean = isContainerReady(); 
-                        if (containerReady) {                     
+
+                    try {
+                        var containerReady:Boolean = isContainerReady();
+                        if (containerReady) {
                             setupCallbacks();
-                        }  else { 
-                            var readyTimer:Timer = new Timer(250); 
-                            readyTimer.addEventListener(TimerEvent.TIMER, timerHandler); 
-                            readyTimer.start(); 
+                        }  else {
+                            var readyTimer:Timer = new Timer(250);
+                            readyTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+                            readyTimer.start();
                         }
                     } catch (err:Error) { } finally { }
                 } else {
-                    
+
                 }
-                
+
             } else {
                 extCall('noCameraFound');
             }
-	}
+        }
 
         private function statusHandler(event:StatusEvent):void {
             if (event.code == "Camera.Unmuted") {
@@ -148,17 +147,17 @@ package {
                 extCall('cameraDisabled');
             }
         }
-        
+
         private function extCall(func:String):Boolean {
             var target:String = this.loaderInfo.parameters["callTarget"];
             return ExternalInterface.call(target + "." + func);
         }
 
-        private function isContainerReady():Boolean { 
+        private function isContainerReady():Boolean {
             var result:Boolean = extCall("isClientReady");
             return result;
         }
-        
+
         private function setupCallbacks():void {
             ExternalInterface.addCallback("save", save);
             ExternalInterface.addCallback("setCamera", setCamera);
@@ -182,30 +181,29 @@ package {
             }
         }
 
-        
-    /**
-     * Returns actual resolution used by camera
-     */
-    public function getResolution():Array {
-        var res:Array = [camResolution[0], camResolution[1]];
-        return res;
-    }
+        /**
+         * Returns actual resolution used by camera
+         */
+        public function getResolution():Array {
+            var res:Array = [camResolution[0], camResolution[1]];
+            return res;
+        }
 
-	public function getCameraList():Array {
-            var list:Array = Camera.names;
-            return list;
-	}
+        public function getCameraList():Array {
+                var list:Array = Camera.names;
+                return list;
+        }
 
-	public function setCamera(id:String):Boolean {
-            var newcam:Camera = Camera.getCamera(id.toString());
-            if (newcam) {
-                setupCamera(newcam);
-                setVideoCamera(newcam);
-                camera = newcam;
-                return true;
-            }
-            return false;
-	}
+        public function setCamera(id:String):Boolean {
+                var newcam:Camera = Camera.getCamera(id.toString());
+                if (newcam) {
+                    setupCamera(newcam);
+                    setVideoCamera(newcam);
+                    camera = newcam;
+                    return true;
+                }
+                return false;
+        }
 
         public function save():String {
             bmd.draw(video);
@@ -215,7 +213,5 @@ package {
             var string:String = Base64.encodeByteArray(byteArray);
             return string;
         }
-    
     }
-
 }
