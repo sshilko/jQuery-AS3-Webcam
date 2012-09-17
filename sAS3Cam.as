@@ -3,10 +3,8 @@
 *
 * Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
 *
-* Date: 08/01/2012
-*
 * @author Sergey Shilko
-* @version 1.0
+* @see https://github.com/sshilko/jQuery-AS3-Webcam
 *
 **/
 
