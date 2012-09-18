@@ -34,7 +34,7 @@ $(document).ready( function() {
         cameraReady:     function () { },
         cameraConnected: function () {
             this.isSwfReady = true;
-        var cam = document.getElementById(this.cameraId);
+            var cam = document.getElementById(this.cameraId);
 
             this.save          = function()  { try { return cam.save();          } catch(e) { this.swfApiFail(e); } }
             this.setCamera     = function(i) { try { return cam.setCamera(i);    } catch(e) { this.swfApiFail(e); } }
