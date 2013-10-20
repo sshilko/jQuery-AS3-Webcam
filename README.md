@@ -1,10 +1,12 @@
-
-jQuery AS3 Webcam
-Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
-@author Sergey Shilko
-@see https://github.com/sshilko/jQuery-AS3-Webcam
-@see http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
-
+```
+/**
+ * jQuery AS3 Webcam
+ * Copyright (c) 2012, Sergey Shilko (sergey.shilko@gmail.com)
+ * @author Sergey Shilko
+ * @see https://github.com/sshilko/jQuery-AS3-Webcam
+ * @see http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
+ */
+```
 
 ## Demo
 http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
