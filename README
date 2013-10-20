@@ -5,6 +5,7 @@
 *
 * @author Sergey Shilko
 * @see https://github.com/sshilko/jQuery-AS3-Webcam
+* @see http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
 *
 **/
 
@@ -13,10 +14,6 @@ Javascript callback will receive base64 encoded JPEG image from webcamera. Suppo
 Adaptive stage scaling (scale to fit actual webcamera resolution set), stage:video scaling 1:1.
 
 IMPORTANT: You must run example on webserver, it will not work by opening example.html in browser straight from filesystem because of flash/flex restrictions.
-
-Hosted example
-
-http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
 
 SWF external interface:
 webcam.save() - get base64 encoded JPEG image
