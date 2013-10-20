@@ -38,3 +38,8 @@ webcam.swfApiFail()    - Javascript failed to make call to SWF
 webcam.debug()         - debug callback used from SWF and can be used from javascript side too
 ```
 and more...
+
+## Why another library?
+
+* Because i could not find an Action Script 3 library for capturing images, there simply was non available.
+* Action Script 2 library (i.e. http://www.xarg.org/project/jquery-webcam-plugin/) are slow
