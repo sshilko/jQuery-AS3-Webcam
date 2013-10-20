@@ -46,6 +46,8 @@
             </tr>
         </table>
         <br/>
+        <div id="result"></div>
+        <br/>
         <h4>The result above should look similar to this:</h2>
         <img src="the-source.jpeg" align="left" border="1" />
         <script type="text/javascript">
@@ -129,6 +131,11 @@
                         var result = cameraApi.save();
                         if (result && result.length) {
                             var actualShotResolution = cameraApi.getResolution();
+
+                            var img = new Image();
+                            img.src = 'data:image/jpeg;base64,' + result;
+                            $("#result").append(img);
+
                             alert('base64encoded jpeg (' + actualShotResolution[0] + 'x' + actualShotResolution[1] + '): ' + result.length + 'chars');
 
                             /* resume camera capture */
