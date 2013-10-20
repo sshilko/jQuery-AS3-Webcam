@@ -59,6 +59,23 @@
                 resolutionWidth: 640,
                 resolutionHeight: 480,
 
+                /**
+                 * Determine if we need to stretch or scale the captured stream
+                 *
+                 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Stage.html#scaleMode
+                 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/StageScaleMode.html
+                 */
+                StageScaleMode: 'noScale', //
+
+                /**
+                 * Aligns video output on stage
+                 * 
+                 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/StageAlign.html
+                 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Stage.html#align
+                 * Empty value defaults to "centered" option
+                 */
+                StageAlign: 'TL', 
+
                 noCameraFound: function () {
                     this.debug('error', 'Web camera is not available');
                 },

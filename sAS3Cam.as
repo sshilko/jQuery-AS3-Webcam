@@ -101,7 +101,7 @@ package {
             flash.system.Security.allowDomain("*");
             stage.scaleMode = this.loaderInfo.parameters["StageScaleMode"];
             stage.quality = StageQuality.BEST;
-            stage.align = ""; // empty string is absolute center
+            stage.align = this.loaderInfo.parameters["StageAlign"]; // empty string is absolute center
 
             camera = Camera.getCamera();
 
