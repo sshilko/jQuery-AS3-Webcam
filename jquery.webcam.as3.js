@@ -66,6 +66,10 @@ $(document).ready( function() {
                     }
                 }
             }
+
+            //Security tip:
+            //XSS Prevention: 'allowScriptAccess' change to 'sameDomain' (if swf & page on same domain)
+            //see @http://www.adobe.com/devnet/flashplayer/articles/secure_swf_apps.html
             var source = '<object id="'+this.cameraId+'" type="application/x-shockwave-flash" data="'+webcam.swffile+'" width="'+webcam.previewWidth+'" height="'+webcam.previewHeight+'"><param name="movie" value="'+webcam.swffile+'" /><param name="FlashVars" value="callTarget='+this.callTarget+'&resolutionWidth='+webcam.resolutionWidth+'&resolutionHeight='+webcam.resolutionHeight+'&smoothing='+webcam.videoSmoothing+'&deblocking='+webcam.videoDeblocking+'&StageScaleMode='+webcam.StageScaleMode+'&StageAlign='+webcam.StageAlign+'" /><param name="allowScriptAccess" value="always" /><param name="bgcolor" value="'+webcam.bgcolor+'" /></object>';
             $(container).html(source);
             return this;
