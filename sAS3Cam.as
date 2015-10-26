@@ -148,7 +148,14 @@ package {
 
         private function extCall(func:String):Boolean {
             var target:String = this.loaderInfo.parameters["callTarget"];
-            return ExternalInterface.call(target + "." + func);
+            
+            // Check if callTarget is a valid JS identifier
+            var jsIdentifierRegex:RegExp = /^[$A-Z_][0-9A-Z_$]*$/;
+            if (jsIdentifierRegex.test(target)) {
+                return ExternalInterface.call(target + "." + func);
+            }
+            
+            return ExternalInterface.call("alert", "Invalid callTarget: it must be a valid JS identifier.");
         }
 
         private function isContainerReady():Boolean {
