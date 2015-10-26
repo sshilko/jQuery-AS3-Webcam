@@ -45,3 +45,11 @@ and more...
 
 * Because i could not find an Action Script 3 library for capturing images, there simply was non available.
 * Action Script 2 library (i.e. http://www.xarg.org/project/jquery-webcam-plugin/) are slow
+
+# Updates
+
+* 2015-10
+* Now with [zeptojs](http://zeptojs.com) instead of jquery (faster)
+* Now with small xss-check for callTarget, can also use 'allowScriptAccess=sameDomain' in some cases
+* Build script tested on MacOSX, recompiled (mxmlc flex 3.6, Latest FF42 & Flash19 works fine)
+
