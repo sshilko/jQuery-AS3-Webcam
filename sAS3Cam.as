@@ -151,11 +151,11 @@ package {
 
             // mini-xss check
             // Check if callTarget is a valid JS identifier (variable name == simple word)
-            //var jsIdentifierRegex:RegExp = /^\w+$/;
-            //if (jsIdentifierRegex.test(target)) {
+            var jsIdentifierRegex:RegExp = /^\w+$/;
+            if (jsIdentifierRegex.test(target)) {
                 return ExternalInterface.call(target + "." + func);
-            //}
-            //return false;
+            }
+            return false;
         }
 
         private function isContainerReady():Boolean {

@@ -16,7 +16,7 @@ echo " "
 FLEX_SDK_HOME="$HOME/FlexSDK"
 #JAVA6_PATH="/usr/lib/jvm/java-6-sun/bin/java"
 JAVA6_PATH=`whereis java`
-MAKE="$JAVA6_PATH -jar $FLEX_SDK_HOME/lib/mxmlc.jar +flexlib=$FLEX_SDK_HOME/frameworks sAS3Cam.as"
+MAKE="$JAVA6_PATH -jar $FLEX_SDK_HOME/lib/mxmlc.jar -as3=true -creator=sshilko -description='jquery-as3-webcam' -headless-server=true -compatibility-version=3.0.0 -target-player=9 -title='jquery-as3-webcam' +flexlib=$FLEX_SDK_HOME/frameworks sAS3Cam.as"
 
 echo "Executing:"
 echo $MAKE
