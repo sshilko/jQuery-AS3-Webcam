@@ -6,12 +6,12 @@
  *
  * @author Sergey Shilko
  * @see https://github.com/sshilko/jQuery-AS3-Webcam
- * @see http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
+ * @see http://sshilko.github.io/examples/example.html
  */
 ```
 
 ## Demo
-http://sshilko.github.io/examples/jQuery-AS3-Webcam/example.html
+http://sshilko.github.io/examples/example.html
 
 ## Overview
 
